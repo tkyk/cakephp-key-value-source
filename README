@@ -1,0 +1,45 @@
+
+CakePHP KeyValueSource
+------------------------------------------------------
+
+DataSource for simple key-value stores
+
+
+Available drivers
+------------------------------------------
+
+memcache:
+  stores data using pecl-memcache.
+
+json_file:
+  stores data into local files encoded in JSON.
+
+
+Configurations
+------------------------------------------
+
+* database.php
+
+<?php
+class DATABASE_CONFIG {
+
+  var $json = array('datasource' => 'key_value',
+                    'driver' => 'json_file',
+                    'root' => TMP);
+
+  var $memcache = array('datasource' => 'key_value',
+                        'driver' => 'memcache',
+                        'host' => 'localhost',
+                        'port' => 11211);
+}
+?>
+
+
+License
+--------------------------
+
+Copyright (c) 2010 Takayuki Miwa <i@tkyk.name>
+
+This software is licensed under the MIT License.
+http://opensource.org/licenses/mit-license.php
+
