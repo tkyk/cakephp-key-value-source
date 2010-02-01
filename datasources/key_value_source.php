@@ -2,6 +2,9 @@
 /**
  * Abstract DataSource class for key-value stores.
  * 
+ * Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+ * Copyright (c) 2010 Takayuki Miwa <i@tkyk.name>
+ * 
  * You should implement:
  * - connect ()
  * - get (&$model, $id, $query)
