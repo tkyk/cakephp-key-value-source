@@ -1,8 +1,6 @@
 <?php
 
-App::import('datasource', 'key_value_source');
-
-class JsonFileSource extends KeyValueSource
+class KeyValueJsonFile extends KeyValueSource
 {
   var $_baseConfig = array('root' => TMP,
 			   'path' => '',

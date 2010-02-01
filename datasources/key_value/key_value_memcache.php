@@ -1,8 +1,6 @@
 <?php
 
-App::import('datasource', 'key_value_source');
-
-class MemcacheSource extends KeyValueSource
+class KeyValueMemcache extends KeyValueSource
 {
   var $_baseConfig = array('host' => 'localhost',
 			   'port' => 11211,
