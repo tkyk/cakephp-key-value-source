@@ -38,7 +38,7 @@ class KeyValueSource extends DataSource
 
   var $_looseSchemaBehavior = 'KeyValueLooseSchema';
 
-  var $_schemalessColumn = array('_data' => array('type' => 'schemaless'));
+  var $_schemalessColumn = array('_schemaless_data' => array('type' => 'schemaless'));
 
   /**
    * Constructor.

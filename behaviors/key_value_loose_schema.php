@@ -10,7 +10,7 @@ class KeyValueLooseSchemaBehavior extends ModelBehavior
 {
   var $_schemalessType = 'schemaless';
 
-  var $_defaultSettings = array('schemalessField' => '_data');
+  var $_defaultSettings = array('schemalessField' => '_schemaless_data');
 
   function setup(&$model, $settings=array())
   {
