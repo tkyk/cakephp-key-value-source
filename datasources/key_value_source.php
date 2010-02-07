@@ -33,11 +33,20 @@ class KeyValueSource extends DataSource
   var $_features = array('listSources' => false,
 			 'describe'    => true);
 
+  /**
+   * @var array  default schema for the models using this DataSource.
+   */
   var $_defaultSchema = array('id' => array('type' => 'integer',
 					    'length' => 11));
 
+  /**
+   * @var string
+   */
   var $_looseSchemaBehavior = 'KeyValueLooseSchema';
 
+  /**
+   * @var array
+   */
   var $_schemalessColumn = array('_schemaless_data' => array('type' => 'schemaless'));
 
   /**
@@ -157,6 +166,13 @@ class KeyValueSource extends DataSource
     }
   }
 
+  /**
+   * describe
+   * 
+   * If the model has $looseSchema, $_looseSchemaBehavior is automatically attached.
+   * 
+   * @override
+   */
   function describe(&$model)
   {
     if(isset($model->looseSchema)) {

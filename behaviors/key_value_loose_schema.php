@@ -8,10 +8,19 @@
 
 class KeyValueLooseSchemaBehavior extends ModelBehavior
 {
+  /**
+   * @var string  column type of schemaless column.
+   */
   var $_schemalessType = 'schemaless';
 
+  /**
+   * @var array
+   */
   var $_defaultSettings = array('schemalessField' => '_schemaless_data');
 
+  /**
+   * setup callback
+   */
   function setup(&$model, $settings=array())
   {
     $settings = array_merge($this->_defaultSettings,
@@ -20,6 +29,12 @@ class KeyValueLooseSchemaBehavior extends ModelBehavior
     $this->settings[$model->alias] = $settings;
   }
 
+  /**
+   * If the model has schemaless column, returns its name.
+   * 
+   * @param $model
+   * @return string or null
+   */
   function getSchemalessField(&$model)
   {
     if($model->getColumnType($this->settings[$model->alias]['schemalessField'])
@@ -29,6 +44,17 @@ class KeyValueLooseSchemaBehavior extends ModelBehavior
     return null;
   }
 
+  /**
+   * beforeSave callback
+   * 
+   * Removes values which are undefined in the $_schema
+   * and stores them into $data[$schemalessField].
+   * $whiltelist can be used to determine which values are stored.
+   * 
+   * @param $model
+   * @param $options array
+   * @return boolean
+   */
   function beforeSave(&$model, $options)
   {
     if(!($schemalessField = $model->getSchemalessField())) {
@@ -53,6 +79,14 @@ class KeyValueLooseSchemaBehavior extends ModelBehavior
     return true;
   }
 
+  /**
+   * This method is called from the DataSources.
+   * 
+   * Extracts values from $data[$schemalessField] and merges them with $data.
+   * 
+   * @param $model
+   * @param $data array
+   */
   function getSchemalessData(&$model, $data)
   {
     if(($schemalessField = $model->getSchemalessField()) &&
