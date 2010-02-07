@@ -31,7 +31,14 @@ class KeyValueSource extends DataSource
    * @var array
    */
   var $_features = array('listSources' => false,
-			 'describe'    => false);
+			 'describe'    => true);
+
+  var $_defaultSchema = array('id' => array('type' => 'integer',
+					    'length' => 11));
+
+  var $_looseSchemaBehavior = 'KeyValueLooseSchema';
+
+  var $_schemalessColumn = array('_data' => array('type' => 'schemaless'));
 
   /**
    * Constructor.
@@ -144,10 +151,29 @@ class KeyValueSource extends DataSource
     }
   }
 
+  function describe(&$model)
+  {
+    if(isset($model->looseSchema)) {
+      $this->_setLooseSchemaBehavior($model);
+      $schema = is_array($model->looseSchema) ? $model->looseSchema : $this->_defaultSchema;
+      return $schema + $this->_schemalessColumn;
+    }
+    return array();
+  }
+
+  function _setLooseSchemaBehavior(&$model)
+  {
+    if(empty($model->actsAs) || 
+       (!isset($model->actsAs[$this->_looseSchemaBehavior]) &&
+	!in_array($this->_looseSchemaBehavior, $model->actsAs))) {
+      $model->actsAs[] = $this->_looseSchemaBehavior;
+    }
+  }
+
   function _dataToSave(&$model, $fields=null, $values=null)
   {
     $data = ($values != null) ? array_combine($fields, $values) : $fields;
-    return $model->Behaviors->enabled('KeyValueLooseSchema')
+    return $model->Behaviors->enabled($this->_looseSchemaBehavior)
       ? $model->getSchemalessData($data) : $data;
   }
 
