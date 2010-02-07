@@ -50,6 +50,12 @@ class KeyValueSource extends DataSource
     $this->debug     = Configure::read('debug') > 0;
     $this->fullDebug = Configure::read('debug') > 1;
 
+    // loaded as plugin in CakePHP 1.3
+    if(strpos($config['datasource'], '.') !== false) {
+      list($plugin, $_source) = explode('.', $config['datasource'], 2);
+      $this->_looseSchemaBehavior = "{$plugin}.{$this->_looseSchemaBehavior}";
+    }
+
     parent::__construct($config);
     $this->connect();
   }
