@@ -36,8 +36,8 @@ class KeyValueSource extends DataSource
   /**
    * @var array  default schema for the models using this DataSource.
    */
-  var $_defaultSchema = array('id' => array('type' => 'integer',
-					    'length' => 11));
+  var $_defaultSchema = array('id' => array('type' => 'string',
+					    'length' => 255));
 
   /**
    * @var string
