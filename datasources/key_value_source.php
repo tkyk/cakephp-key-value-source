@@ -144,9 +144,16 @@ class KeyValueSource extends DataSource
     }
   }
 
-  function create(&$model, $fields=null, $values=null)
+  function _dataToSave(&$model, $fields=null, $values=null)
   {
     $data = ($values != null) ? array_combine($fields, $values) : $fields;
+    return $model->Behaviors->enabled('KeyValueLooseSchema')
+      ? $model->getSchemalessData($data) : $data;
+  }
+
+  function create(&$model, $fields=null, $values=null)
+  {
+    $data = $this->_dataToSave($model, $fields, $values);
 
     if(isset($data[$model->primaryKey])
        && $this->checkId($data[$model->primaryKey])
@@ -160,7 +167,7 @@ class KeyValueSource extends DataSource
 
   function update(&$model, $fields = null, $values = null)
   {
-    $data = ($values != null) ? array_combine($fields, $values) : $fields;
+    $data = $this->_dataToSave($model, $fields, $values);
 
     if($this->checkId($model->id) &&
        $this->set($model, $model->id, $data)) {
