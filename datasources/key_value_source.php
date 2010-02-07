@@ -169,10 +169,13 @@ class KeyValueSource extends DataSource
 
   function _setLooseSchemaBehavior(&$model)
   {
-    if(empty($model->actsAs) || 
-       (!isset($model->actsAs[$this->_looseSchemaBehavior]) &&
-	!in_array($this->_looseSchemaBehavior, $model->actsAs))) {
-      $model->actsAs[] = $this->_looseSchemaBehavior;
+    if(empty($model->actsAs)) {
+      $model->actsAs = array();
+    }
+    if(!isset($model->actsAs[$this->_looseSchemaBehavior]) &&
+       !in_array($this->_looseSchemaBehavior, $model->actsAs)) {
+      $model->actsAs[$this->_looseSchemaBehavior]
+	= array('schemalessField' => key($this->_schemalessColumn));
     }
   }
 
